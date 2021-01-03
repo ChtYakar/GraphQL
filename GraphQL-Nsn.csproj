@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>GraphQL_Nsn</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\cyakar\.nuget\packages\mongodb.driver.core\2.11.5\contentFiles\any\netstandard2.0\Core\Compression\Snappy\lib\win\snappy32.dll" />
+    <Content Remove="C:\Users\cyakar\.nuget\packages\mongodb.driver.core\2.11.5\contentFiles\any\netstandard2.0\Core\Compression\Snappy\lib\win\snappy64.dll" />
+    <Content Remove="C:\Users\cyakar\.nuget\packages\mongodb.driver.core\2.11.5\contentFiles\any\netstandard2.0\Core\Compression\Zstandard\lib\win\libzstd.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="graphiql" Version="2.0.0" />
+    <PackageReference Include="GraphQL" Version="2.4.0" />
+    <PackageReference Include="GraphQL.Server.Ui.Playground" Version="4.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.1" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.1" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.6" />
+    <PackageReference Include="MongoDB.Driver" Version="2.11.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\cyakar\.nuget\packages\mongodb.driver.core\2.11.5\build\../runtimes/win/native/libzstd.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\cyakar\.nuget\packages\mongodb.driver.core\2.11.5\build\../runtimes/win/native/libzstd.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\cyakar\.nuget\packages\mongodb.driver.core\2.11.5\build\../runtimes/win/native/snappy32.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\cyakar\.nuget\packages\mongodb.driver.core\2.11.5\build\../runtimes/win/native/snappy32.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\cyakar\.nuget\packages\mongodb.driver.core\2.11.5\build\../runtimes/win/native/snappy64.dll" />
+  </ItemGroup>
+
+</Project>
