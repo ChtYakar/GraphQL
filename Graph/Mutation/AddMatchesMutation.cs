@@ -10,11 +10,14 @@ using System.Threading.Tasks;
 
 namespace GraphQL_Nsn.Graph.Mutation
 {
-    public class AddMatchesMutation : IFieldMutationServiceItem
+    public class AddMatchesMutation : ObjectGraphType
     {
-        public void Activate(ObjectGraphType objectGraph, IWebHostEnvironment env, IServiceProvider sp)
+        IServiceProvider _sp;
+
+        public AddMatchesMutation(IServiceProvider sp)
         {
-            objectGraph.Field<MatchesGType>("addMatch",
+            _sp = sp;
+            Field<MatchesGType>("addMatch",
             arguments: new QueryArguments(
                new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "Id" },
                new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "HomeTeamId" },
@@ -28,13 +31,11 @@ namespace GraphQL_Nsn.Graph.Mutation
                 var awayTeamId = context.GetArgument<int>("awayTeamId");
                 var score = context.GetArgument<string>("score");
 
-                // var subscriptionServices = (ISubscriptionServices)sp.GetService(typeof(ISubscriptionServices));
                 var mRepository = (IGenericRepository<Matches>)sp.GetService(typeof(IGenericRepository<Matches>));
-               // var countryRepository = (IGenericRepository<Country>)sp.GetService(typeof(IGenericRepository<Country>));
 
                 var foundCountry = mRepository.GetById(Id);
 
-                var newCity = new Matches
+                var newMatch = new Matches
                 {
                     Id = Id,
                     AwayTeamId = awayTeamId,
@@ -42,14 +43,7 @@ namespace GraphQL_Nsn.Graph.Mutation
                     Score = score
                 };
 
-                var addedM = mRepository.Insert(newCity);
-                //subscriptionServices.CityAddedService.AddCityAddedMessage(new CityAddedMessage
-                //{
-                //    cityName = addedCity.name,
-                //    countryName = foundCountry.name,
-                //    id = addedCity.id,
-                //    message = "A new city added"
-                //});
+                var addedM = mRepository.Insert(newMatch);
                 return addedM;
 
             });

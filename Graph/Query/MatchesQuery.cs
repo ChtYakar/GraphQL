@@ -10,18 +10,20 @@ using System.Threading.Tasks;
 
 namespace GraphQL_Nsn.Graph.Query
 {
-    public class MatchesQuery:IFieldQueryServiceItem
+    public class MatchesQuery : ObjectGraphType
     {
-        public void Activate(ObjectGraphType objectGraph, IWebHostEnvironment env, IServiceProvider sp)
+        IServiceProvider _sp;
+        public MatchesQuery(IServiceProvider provider)
         {
-            objectGraph.Field<ListGraphType<MatchesGType>>("matches",
+            _sp = provider;
+            Field<ListGraphType<MatchesGType>>("matches",
                arguments: new QueryArguments(
                  new QueryArgument<IntGraphType> { Name = "id" },
                  new QueryArgument<IntGraphType> { Name = "homeTeamId" }
                ),
                resolve: context =>
                {
-                   var matchesRepository = (IGenericRepository<Matches>)sp.GetService(typeof(IGenericRepository<Matches>));
+                   var matchesRepository = (IGenericRepository<Matches>)_sp.GetService(typeof(IGenericRepository<Matches>));
                    var baseQuery = matchesRepository.GetAll();
                    var _id = context.GetArgument<int>("id");
                    var _homeTeamId = context.GetArgument<int>("homeTeamId");

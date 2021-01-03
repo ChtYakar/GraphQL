@@ -36,8 +36,8 @@ namespace GraphQL_Nsn
             services.AddScoped<IFieldService, FieldService>();
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
 
-            services.AddScoped<MainMutation>();
-            services.AddScoped<MainQuery>();
+            services.AddScoped<AddMatchesMutation>();
+            services.AddScoped<MatchesQuery>();
 
             services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
             services.AddScoped<LiveScoreSchema>();

@@ -11,14 +11,12 @@ using System.Threading.Tasks;
 
 namespace GraphQL_Nsn.Graph.Schema
 {
-    public class LiveScoreSchema : GraphQL.Types.Schema
+    public class LiveScoreSchema : GraphQL.Types.Schema, ISchema
     {
         public LiveScoreSchema(IDependencyResolver resolver):base(resolver)
-        {
-            var fieldService = resolver.Resolve<IFieldService>();
-            fieldService.RegisterFields();
-            Mutation = resolver.Resolve<MainMutation>();
-            Query = resolver.Resolve<MainQuery>();
+        {            
+            Mutation = resolver.Resolve<AddMatchesMutation>();
+            Query = resolver.Resolve<MatchesQuery>();
             //Subscription = resolver.Resolve<MainSubscription>();
         }
     }
