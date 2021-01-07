@@ -6,11 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Graph\Mutation\MainMutation.cs" />
-    <Compile Remove="Graph\Query\MainQuery.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="C:\Users\cyakar\.nuget\packages\mongodb.driver.core\2.11.5\contentFiles\any\netstandard2.0\Core\Compression\Snappy\lib\win\snappy32.dll" />
     <Content Remove="C:\Users\cyakar\.nuget\packages\mongodb.driver.core\2.11.5\contentFiles\any\netstandard2.0\Core\Compression\Snappy\lib\win\snappy64.dll" />
     <Content Remove="C:\Users\cyakar\.nuget\packages\mongodb.driver.core\2.11.5\contentFiles\any\netstandard2.0\Core\Compression\Zstandard\lib\win\libzstd.dll" />
@@ -19,6 +14,8 @@
   <ItemGroup>
     <PackageReference Include="graphiql" Version="2.0.0" />
     <PackageReference Include="GraphQL" Version="2.4.0" />
+    <PackageReference Include="GraphQL.Server.Core" Version="3.4.0" />
+    <PackageReference Include="GraphQL.Server.Transports.WebSockets" Version="3.4.0" />
     <PackageReference Include="GraphQL.Server.Ui.Playground" Version="4.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.1" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.1" NoWarn="NU1605" />

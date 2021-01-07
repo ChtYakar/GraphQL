@@ -15,12 +15,6 @@ namespace GraphQL_Nsn.Graph.Type
             Field(x => x.Id, type: typeof(IntGraphType));
             Field(x => x.Name, type: typeof(StringGraphType));
             Field(x => x.Position, type: typeof(IntGraphType));
-
-            Field<ListGraphType<StastisticsGType>>("Player Statistics", resolve: context =>
-            {
-                IGenericRepository<Statistics> statsRepo = (IGenericRepository<Statistics>)provider.GetService(typeof(IGenericRepository<Statistics>));
-                return statsRepo.GetAll().Where(s => s.PlayerId == context.Source.Id);
-            });
         }
     }
 }

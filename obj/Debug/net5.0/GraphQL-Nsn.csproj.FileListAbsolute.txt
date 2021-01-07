@@ -56,3 +56,7 @@ C:\Projects\GraphQL-Nsn\bin\Debug\net5.0\GraphQL.Server.Ui.Playground.dll
 C:\Projects\GraphQL-Nsn\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
 C:\Projects\GraphQL-Nsn\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Projects\GraphQL-Nsn\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
+C:\Projects\GraphQL-Nsn\bin\Debug\net5.0\GraphQL.Server.Core.dll
+C:\Projects\GraphQL-Nsn\bin\Debug\net5.0\GraphQL.Server.Transports.Subscriptions.Abstractions.dll
+C:\Projects\GraphQL-Nsn\bin\Debug\net5.0\GraphQL.Server.Transports.WebSockets.dll
+C:\Projects\GraphQL-Nsn\bin\Debug\net5.0\System.Reactive.PlatformServices.dll

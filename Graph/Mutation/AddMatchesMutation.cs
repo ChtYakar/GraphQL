@@ -10,19 +10,17 @@ using System.Threading.Tasks;
 
 namespace GraphQL_Nsn.Graph.Mutation
 {
-    public class AddMatchesMutation : ObjectGraphType
+    public class AddMatchesMutation : IFieldMutationServiceItem
     {
-        IServiceProvider _sp;
-
-        public AddMatchesMutation(IServiceProvider sp)
+        public void Activate(ObjectGraphType objectGraph, IWebHostEnvironment env, IServiceProvider sp)
         {
-            _sp = sp;
-            Field<MatchesGType>("addMatch",
+            objectGraph.Field<MatchesGType>("addMatch",
             arguments: new QueryArguments(
                new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "Id" },
                new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "HomeTeamId" },
                new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "AwayTeamId" },
-               new QueryArgument<StringGraphType> { Name = "Score" }
+               new QueryArgument<StringGraphType> { Name = "Score" },
+               new QueryArgument<StringGraphType> { Name = "Stadium" }
             ),
             resolve: context =>
             {
@@ -30,6 +28,7 @@ namespace GraphQL_Nsn.Graph.Mutation
                 var homeTeamId = context.GetArgument<int>("homeTeamId");
                 var awayTeamId = context.GetArgument<int>("awayTeamId");
                 var score = context.GetArgument<string>("score");
+                var stadium = context.GetArgument<string>("stadium");
 
                 var mRepository = (IGenericRepository<Matches>)sp.GetService(typeof(IGenericRepository<Matches>));
 
@@ -40,7 +39,8 @@ namespace GraphQL_Nsn.Graph.Mutation
                     Id = Id,
                     AwayTeamId = awayTeamId,
                     HomeTeamId = homeTeamId,
-                    Score = score
+                    Score = score,
+                    Stadium = stadium
                 };
 
                 var addedM = mRepository.Insert(newMatch);

@@ -10,30 +10,36 @@ using System.Threading.Tasks;
 
 namespace GraphQL_Nsn.Graph.Query
 {
-    public class MatchesQuery : ObjectGraphType
+    public class MatchesQuery : IFieldQueryServiceItem
     {
-        IServiceProvider _sp;
-        public MatchesQuery(IServiceProvider provider)
+        public void Activate(ObjectGraphType objectGraph, IWebHostEnvironment env, IServiceProvider sp)
         {
-            _sp = provider;
-            Field<ListGraphType<MatchesGType>>("matches",
+            objectGraph.Field<ListGraphType<MatchesGType>>("matches",
                arguments: new QueryArguments(
                  new QueryArgument<IntGraphType> { Name = "id" },
-                 new QueryArgument<IntGraphType> { Name = "homeTeamId" }
+                 new QueryArgument<IntGraphType> { Name = "homeTeamId" },
+                 new QueryArgument<IntGraphType> { Name = "awayTeamId" }
                ),
                resolve: context =>
                {
-                   var matchesRepository = (IGenericRepository<Matches>)_sp.GetService(typeof(IGenericRepository<Matches>));
-                   var baseQuery = matchesRepository.GetAll();
+                   var matchesRepository = (IGenericRepository<Matches>)sp.GetService(typeof(IGenericRepository<Matches>));
                    var _id = context.GetArgument<int>("id");
-                   var _homeTeamId = context.GetArgument<int>("homeTeamId");
-                   if (_id > 0 )
+                   if (_id > 0)
                    {
-                       baseQuery = baseQuery.Where(w => w.Id == _id );
+                       var match = matchesRepository.GetById(_id);
+                       List<Matches> singleMatch = new List<Matches>() { match };
+                       return singleMatch;
                    }
-                   if(_homeTeamId > 0)
+                   var baseQuery = matchesRepository.GetAll();
+                   var _homeTeamId = context.GetArgument<int>("homeTeamId");
+                   var _awayTeamId = context.GetArgument<int>("awayTeamId");
+                   if (_homeTeamId > 0)
                    {
-                       baseQuery = baseQuery.Where(w => w.HomeTeamId == _homeTeamId);
+                       baseQuery = baseQuery.Where(w => w.HomeTeam.Id == _homeTeamId);
+                   }
+                   if (_awayTeamId > 0)
+                   {
+                       baseQuery = baseQuery.Where(w => w.AwayTeam.Id == _awayTeamId);
                    }
                    return baseQuery.ToList();
                });

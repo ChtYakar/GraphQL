@@ -13,7 +13,8 @@ namespace GraphQL_Nsn.Graph.Type
         {
             Field(x => x.Id, type: typeof(IntGraphType));
             Field(x => x.Name, type: typeof(StringGraphType));
-            //Field<PlayerGType>
+            Field(x => x.LogoId, type: typeof(IntGraphType));
+
         }
     }
 }
