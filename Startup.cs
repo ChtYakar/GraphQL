@@ -40,12 +40,12 @@ namespace GraphQL_Nsn
             services.AddScoped<IFieldService, FieldService>();
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
 
-            services.AddScoped<AddMatchesMutation>();
+            services.AddScoped<MainMutation>();
             services.AddScoped<MainQuery>();
-            services.AddScoped<StastisticsGType>();
             services.AddScoped<MatchesGType>();
             services.AddScoped<TeamGType>();
             services.AddScoped<PlayerGType>();
+            
 
             services.AddControllers();
 
@@ -68,8 +68,6 @@ namespace GraphQL_Nsn
                 x.GraphiQlPath = "/graphiql-ui";
                 x.GraphQlApiPath = "/graphql";
             });
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

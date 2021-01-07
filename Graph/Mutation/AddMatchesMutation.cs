@@ -1,4 +1,5 @@
-﻿using GraphQL.Types;
+﻿using GraphQL;
+using GraphQL.Types;
 using GraphQL_Nsn.Graph.Type;
 using GraphQL_Nsn.Interfaces;
 using GraphQL_Nsn.Models;
@@ -32,19 +33,26 @@ namespace GraphQL_Nsn.Graph.Mutation
 
                 var mRepository = (IGenericRepository<Matches>)sp.GetService(typeof(IGenericRepository<Matches>));
 
-                var foundCountry = mRepository.GetById(Id);
-
-                var newMatch = new Matches
+                var foundMatches = mRepository.GetById(Id);
+                if (foundMatches == null)
                 {
-                    Id = Id,
-                    AwayTeamId = awayTeamId,
-                    HomeTeamId = homeTeamId,
-                    Score = score,
-                    Stadium = stadium
-                };
+                    var newMatch = new Matches
+                    {
+                        Id = Id,
+                        AwayTeamId = awayTeamId,
+                        HomeTeamId = homeTeamId,
+                        Score = score,
+                        Stadium = stadium
+                    };
+                    var addedM = mRepository.Insert(newMatch);
+                    return addedM;
+                }
+                else
+                {
+                    context.Errors.Add(new ExecutionError("Id is already saved"));
+                    return null;
+                }
 
-                var addedM = mRepository.Insert(newMatch);
-                return addedM;
 
             });
         }

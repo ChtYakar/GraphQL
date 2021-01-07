@@ -1,5 +1,4 @@
 ﻿using GraphQL.Types;
-using GraphQL_Nsn.Interfaces;
 using GraphQL_Nsn.Models;
 using System;
 using System.Collections.Generic;
@@ -12,9 +11,12 @@ namespace GraphQL_Nsn.Graph.Type
     {
         public PlayerGType(IServiceProvider provider)
         {
-            Field(x => x.Id, type: typeof(IntGraphType));
+            Field(x => x.Age, type: typeof(IntGraphType));
             Field(x => x.Name, type: typeof(StringGraphType));
+            Field(x => x.Id, type: typeof(IntGraphType));
+            Field(x => x.Nationality,type: typeof(StringGraphType));
             Field(x => x.Position, type: typeof(IntGraphType));
+            Field(x => x.TeamId, type: typeof(IntGraphType));
         }
     }
 }

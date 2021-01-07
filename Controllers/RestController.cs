@@ -15,14 +15,12 @@ namespace GraphQL_Nsn.Controllers
     public class RestController : ControllerBase
     {
         static IServiceProvider _sp;
-        static IGenericRepository<Matches> matchesRepo;
-        static IGenericRepository<Player> playerRepo;
+        static IGenericRepository<Matches> matchesRepo;        
         static IGenericRepository<Team> teamRepo;
         public RestController(IServiceProvider sp)
         {
             _sp = sp;
-            matchesRepo = (IGenericRepository<Matches>)_sp.GetService(typeof(IGenericRepository<Matches>));
-            playerRepo = (IGenericRepository<Player>)_sp.GetService(typeof(IGenericRepository<Player>));
+            matchesRepo = (IGenericRepository<Matches>)_sp.GetService(typeof(IGenericRepository<Matches>));        
             teamRepo = (IGenericRepository<Team>)_sp.GetService(typeof(IGenericRepository<Team>));
         }
         [HttpGet("Index")]
@@ -41,6 +39,17 @@ namespace GraphQL_Nsn.Controllers
             var awayTeam = teamRepo.GetById(match.AwayTeamId);            
             return new JsonResult(new { Match = match, Teams = new Team[] { homeTeam, awayTeam } });
         }
+
+        //[HttpGet("GetMatchesNameWithTeamsV2")]
+        //public JsonResult GetMatchesNameWithTeamsV2(int matchId)
+        //{
+        //    var match = matchesRepo.GetById(matchId);
+        //    if (match == null)
+        //        return new JsonResult(null);
+        //    var homeTeam = teamRepo.GetById(match.HomeTeamId);
+        //    var awayTeam = teamRepo.GetById(match.AwayTeamId);            
+        //    return new JsonResult(new { Match = match, Teams = new Team[] { homeTeam, awayTeam, home } });
+        //}
 
     }
 }

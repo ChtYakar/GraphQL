@@ -18,7 +18,9 @@ namespace GraphQL_Nsn.Graph.Query
                arguments: new QueryArguments(
                  new QueryArgument<IntGraphType> { Name = "id" },
                  new QueryArgument<IntGraphType> { Name = "homeTeamId" },
-                 new QueryArgument<IntGraphType> { Name = "awayTeamId" }
+                 new QueryArgument<IntGraphType> { Name = "awayTeamId" },
+                 new QueryArgument<IntGraphType> { Name = "limit" },
+                 new QueryArgument<IntGraphType> { Name = "htID"}
                ),
                resolve: context =>
                {
@@ -33,6 +35,8 @@ namespace GraphQL_Nsn.Graph.Query
                    var baseQuery = matchesRepository.GetAll();
                    var _homeTeamId = context.GetArgument<int>("homeTeamId");
                    var _awayTeamId = context.GetArgument<int>("awayTeamId");
+                   var _limit = context.GetArgument<int>("limit");
+                   var _htId = context.GetArgument<int>("htID");
                    if (_homeTeamId > 0)
                    {
                        baseQuery = baseQuery.Where(w => w.HomeTeam.Id == _homeTeamId);
@@ -41,7 +45,14 @@ namespace GraphQL_Nsn.Graph.Query
                    {
                        baseQuery = baseQuery.Where(w => w.AwayTeam.Id == _awayTeamId);
                    }
-                   return baseQuery.ToList();
+                   if (_limit > 0)
+                   {
+                       return baseQuery.Take(_limit).ToList();
+                   }
+                   else
+                   {
+                       return baseQuery.ToList();
+                   }
                });
         }
     }
