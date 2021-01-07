@@ -31,8 +31,8 @@ namespace GraphQL_Nsn.Controllers
             var list = matchesRepo.GetAll();
             return new JsonResult(list);
         }
-        [HttpGet("GetMatchesNameWithPlayerList")]
-        public JsonResult GetMatchesNameWithPlayerList(int matchId)
+        [HttpGet("GetMatchesNameWithTeams")]
+        public JsonResult GetMatchesNameWithTeams(int matchId)
         {
             var match = matchesRepo.GetById(matchId);
             if (match == null)
