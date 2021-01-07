@@ -38,10 +38,8 @@ namespace GraphQL_Nsn.Controllers
             if (match == null)
                 return new JsonResult(null);
             var homeTeam = teamRepo.GetById(match.HomeTeamId);
-            var awayTeam = teamRepo.GetById(match.AwayTeamId);
-            var homePlayers = playerRepo.GetAll().Where(x => x.TeamId == match.HomeTeamId);
-            var awayPlayers = playerRepo.GetAll().Where(x => x.TeamId == match.AwayTeamId);
-            return new JsonResult(new { Match = match,Teams = new Team[] { homeTeam, awayTeam }, HomePlayers = homePlayers, AwayPlayers = awayPlayers });
+            var awayTeam = teamRepo.GetById(match.AwayTeamId);            
+            return new JsonResult(new { Match = match, Teams = new Team[] { homeTeam, awayTeam } });
         }
 
     }
