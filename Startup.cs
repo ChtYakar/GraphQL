@@ -1,5 +1,6 @@
 using GraphiQl;
 using GraphQL;
+using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
 using GraphQL.Types;
 using GraphQL_Nsn.Graph.Mutation;
@@ -7,6 +8,7 @@ using GraphQL_Nsn.Graph.Query;
 using GraphQL_Nsn.Graph.Schema;
 using GraphQL_Nsn.Graph.Type;
 using GraphQL_Nsn.Interfaces;
+using GraphQL_Nsn.Models;
 using GraphQL_Nsn.Repositories;
 using GraphQL_Nsn.Services;
 using Microsoft.AspNetCore.Builder;
@@ -22,9 +24,11 @@ namespace GraphQL_Nsn
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment _env;
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -38,18 +42,21 @@ namespace GraphQL_Nsn
 
             services.AddScoped<MainMutation>();
             services.AddScoped<MainQuery>();
+            services.AddScoped<MatchesGType>();
+            services.AddScoped<TeamGType>();
+            services.AddScoped<PlayerGType>();
+            
+
+            services.AddControllers();
+
 
             services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
             services.AddScoped<LiveScoreSchema>();
 
-            services.AddControllers();
-            services.AddSingleton<StastisticsGType>();
-            services.AddSingleton<MatchesGType>();
-            services.AddSingleton<TeamGType>();
-            services.AddSingleton<PlayerGType>();
 
-          
-
+            services.AddGraphQL(o => { o.ExposeExceptions = _env.IsDevelopment(); })
+                .AddGraphTypes(ServiceLifetime.Scoped)
+                .AddWebSockets();
             services.AddCors();
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
@@ -61,8 +68,6 @@ namespace GraphQL_Nsn
                 x.GraphiQlPath = "/graphiql-ui";
                 x.GraphQlApiPath = "/graphql";
             });
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

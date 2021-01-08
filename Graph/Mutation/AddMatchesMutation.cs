@@ -1,4 +1,5 @@
-﻿using GraphQL.Types;
+﻿using GraphQL;
+using GraphQL.Types;
 using GraphQL_Nsn.Graph.Type;
 using GraphQL_Nsn.Interfaces;
 using GraphQL_Nsn.Models;
@@ -19,7 +20,8 @@ namespace GraphQL_Nsn.Graph.Mutation
                new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "Id" },
                new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "HomeTeamId" },
                new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "AwayTeamId" },
-               new QueryArgument<StringGraphType> { Name = "Score" }
+               new QueryArgument<StringGraphType> { Name = "Score" },
+               new QueryArgument<StringGraphType> { Name = "Stadium" }
             ),
             resolve: context =>
             {
@@ -27,30 +29,30 @@ namespace GraphQL_Nsn.Graph.Mutation
                 var homeTeamId = context.GetArgument<int>("homeTeamId");
                 var awayTeamId = context.GetArgument<int>("awayTeamId");
                 var score = context.GetArgument<string>("score");
+                var stadium = context.GetArgument<string>("stadium");
 
-                // var subscriptionServices = (ISubscriptionServices)sp.GetService(typeof(ISubscriptionServices));
                 var mRepository = (IGenericRepository<Matches>)sp.GetService(typeof(IGenericRepository<Matches>));
-               // var countryRepository = (IGenericRepository<Country>)sp.GetService(typeof(IGenericRepository<Country>));
 
-                var foundCountry = mRepository.GetById(Id);
-
-                var newCity = new Matches
+                var foundMatches = mRepository.GetById(Id);
+                if (foundMatches == null)
                 {
-                    Id = Id,
-                    AwayTeamId = awayTeamId,
-                    HomeTeamId = homeTeamId,
-                    Score = score
-                };
+                    var newMatch = new Matches
+                    {
+                        Id = Id,
+                        AwayTeamId = awayTeamId,
+                        HomeTeamId = homeTeamId,
+                        Score = score,
+                        Stadium = stadium
+                    };
+                    var addedM = mRepository.Insert(newMatch);
+                    return addedM;
+                }
+                else
+                {
+                    context.Errors.Add(new ExecutionError("Id is already saved"));
+                    return null;
+                }
 
-                var addedM = mRepository.Insert(newCity);
-                //subscriptionServices.CityAddedService.AddCityAddedMessage(new CityAddedMessage
-                //{
-                //    cityName = addedCity.name,
-                //    countryName = foundCountry.name,
-                //    id = addedCity.id,
-                //    message = "A new city added"
-                //});
-                return addedM;
 
             });
         }

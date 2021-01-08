@@ -12,14 +12,16 @@ namespace GraphQL_Nsn.Graph.Type
     {
         public PlayerGType(IServiceProvider provider)
         {
-            Field(x => x.Id, type: typeof(IntGraphType));
+            Field(x => x.Age, type: typeof(IntGraphType));
             Field(x => x.Name, type: typeof(StringGraphType));
+            Field(x => x.Id, type: typeof(IntGraphType));
+            Field(x => x.Nationality,type: typeof(StringGraphType));
             Field(x => x.Position, type: typeof(IntGraphType));
-
-            Field<ListGraphType<StastisticsGType>>("Player Statistics", resolve: context =>
+            Field(x => x.TeamId, type: typeof(IntGraphType));
+            Field<TeamGType>("Team", resolve: context =>
             {
-                IGenericRepository<Statistics> statsRepo = (IGenericRepository<Statistics>)provider.GetService(typeof(IGenericRepository<Statistics>));
-                return statsRepo.GetAll().Where(s => s.PlayerId == context.Source.Id);
+                IGenericRepository<Team> teamRepo = (IGenericRepository<Team>)provider.GetService(typeof(IGenericRepository<Team>));
+                return teamRepo.GetById(context.Source.TeamId);
             });
         }
     }

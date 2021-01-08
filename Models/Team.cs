@@ -8,5 +8,6 @@ namespace GraphQL_Nsn.Models
     public class Team : BaseEntity
     {
         public string Name { get; set; }
+        public int LogoId { get; set; }
     }
 }
